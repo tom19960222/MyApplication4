@@ -20,7 +20,7 @@ public interface MyAPIService {
     Call<product> getProduct(@Path("id") int id);
 
     @GET("productName")
-    Call<ResponseBody> getProductName();
+    Call<product> getProductName();
 
 
     @GET("productList")

@@ -83,24 +83,20 @@ public class MainActivity extends AppCompatActivity {
 
     void getProdcutName() {
         delete2 = (TextView)findViewById(R.id.textView2);
-        Call<ResponseBody> call = api.getProductName();
+        Call<product> call = api.getProductName();
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<product>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try{
-                    ResponseBody result = response.body();
+            public void onResponse(Call<product> call, Response<product> response) {
+                    product result = response.body();
 
-                    delete2.setText(result.string());
+                    delete2.setText(result.getPid());
 
-                }catch (IOException e){
-                    delete2.setText(e.toString());
-                }
 
 
             }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<product> call, Throwable t) {
                 Log.e("U",t.toString());
                 delete2.setText(t.toString());
             }
