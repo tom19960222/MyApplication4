@@ -19,6 +19,7 @@ import java.lang.reflect.GenericSignatureFormatError;
 import java.lang.reflect.Type;
 import java.sql.Array;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 
 import okhttp3.ResponseBody;
@@ -83,15 +84,20 @@ public class MainActivity extends AppCompatActivity {
 
     void getProdcutName() {
         delete2 = (TextView)findViewById(R.id.textView2);
-        Call<ResponseBody> call = api.getProductName();
+        Call<ProductNameResponse> call = api.getProductName();
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<ProductNameResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<ProductNameResponse> call, Response<ProductNameResponse> response) {
                 try{
-                    ResponseBody result = response.body();
+                    ProductNameResponse result = response.body();
+                    if(result == null) throw new IOException("Result is null");
 
-                    delete2.setText(result.string());
+                    String str = "";
+                    for (int i = 0; i < result.ProductName.size(); i++) {
+                        str += "name: " + result.ProductName.get(i).name + " id: " + result.ProductName.get(i).Pid + "\n";
+                    }
+                    delete2.setText(str);
 
                 }catch (IOException e){
                     delete2.setText(e.toString());
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ProductNameResponse> call, Throwable t) {
                 Log.e("U",t.toString());
                 delete2.setText(t.toString());
             }
@@ -143,6 +149,13 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<com.example.myapplication4.feedback>() {
             @Override
             public void onResponse(Call<com.example.myapplication4.feedback> call, Response<com.example.myapplication4.feedback> response) {
+
+                 feedback fb = response.body();
+                 if(fb != null){
+                     System.out.println("feedback" + fb.getFeedback());
+                     System.out.println(fb.getFeedback());
+                 }
+
 
 //                String result = response.body().toString();
 //                String result1 = result.replaceAll("\\\\", "");

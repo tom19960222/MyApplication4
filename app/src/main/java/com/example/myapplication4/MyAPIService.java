@@ -1,5 +1,7 @@
 package com.example.myapplication4;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Response;
@@ -20,7 +22,7 @@ public interface MyAPIService {
     Call<product> getProduct(@Path("id") int id);
 
     @GET("productName")
-    Call<ResponseBody> getProductName();
+    Call<ProductNameResponse> getProductName();
 
 
     @GET("productList")
